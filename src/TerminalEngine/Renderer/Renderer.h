@@ -19,4 +19,22 @@ void render(Renderer* render);
 // Frees memory held by the struct.
 void destroyRenderer(Renderer* renderer);
 
+typedef enum Color {
+    WHITE
+} Color;
+
+typedef struct Fragment {
+    int x;
+    int y;
+    wchar_t type;
+    Color color;
+} Fragment;
+
+// Draw Commands
+
+// Draws a single "pixel" (character) at specified location.
+void draw(Renderer* renderer, Fragment* frag);
+// Draws a solid (filled) character at specified location.
+void drawSolid(Renderer* renderer, int x, int y);
+
 #endif

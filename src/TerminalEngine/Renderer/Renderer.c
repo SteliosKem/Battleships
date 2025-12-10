@@ -13,7 +13,8 @@ void render(Renderer* renderer) {
 
     for(int y = 0; y < renderer->screenHeight; y++) {
         for(int x = 0; x < renderer->screenWidth; x++) {
-            renderer->screen[y*renderer->screenWidth + x] = '#';
+            drawSolid(renderer, x, y);
+            //renderer->screen[y*renderer->screenWidth + x] = '#';
         }
     }
 
@@ -26,4 +27,13 @@ void render(Renderer* renderer) {
     
 void destroyRenderer(Renderer* renderer) {
     free(renderer->screen);
+}
+
+void draw(Renderer* renderer, Fragment* frag) {
+    renderer->screen[renderer->screenWidth * frag->y + frag->x] = frag->type;
+}
+
+void drawSolid(Renderer* renderer, int x, int y) {
+    Fragment frag = {x, y, 0x2588, 0};
+    draw(renderer, &frag);
 }

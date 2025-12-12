@@ -33,10 +33,13 @@ typedef struct Fragment {
 
 // Draw Commands
 
+// Clears the Screen Buffer.
+void clear(Renderer* renderer);
 // Draws a single "pixel" (character) at specified location.
 void draw(Renderer* renderer, Fragment* frag);
 // Draws a solid (filled) character at specified location.
 void drawSolid(Renderer* renderer, Vec2* point);
+// Draws a solid line from point a to point b.
 void drawLine(Renderer* renderer, Vec2* a, Vec2* b);
 
 #endif

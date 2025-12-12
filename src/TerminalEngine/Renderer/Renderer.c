@@ -8,21 +8,18 @@ void createRenderer(Renderer* renderer) {
     SetConsoleActiveScreenBuffer(renderer->hConsole);
 }
 
-void render(Renderer* renderer) {
-    DWORD dwBytesWritten = 0;
-
+void clear(Renderer* renderer) {
     // Clear Buffer
     for(int y = 0; y < renderer->screenHeight; y++) {
         for(int x = 0; x < renderer->screenWidth; x++) {
             Vec2 pos = {x, y};
-            drawSolid(renderer, &pos);
             renderer->screen[y*renderer->screenWidth + x] = ' ';
         }
     }
+}
 
-    Vec2 pA = {15.0f, 10.0f};
-    Vec2 pB = {80.0f, 30.0f};
-    drawLine(renderer, &pA, &pB);
+void render(Renderer* renderer) {
+    DWORD dwBytesWritten = 0;
 
     // Null terminate
     renderer->screen[renderer->screenWidth * renderer->screenHeight - 1] = '\0';

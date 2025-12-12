@@ -1,6 +1,8 @@
 #ifndef TE_MATH_H
 #define TE_MATH_H
 
+#include <math.h>
+
 // 2-Dimensial Vector Object
 typedef struct Vec2 {
     float x;

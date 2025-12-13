@@ -8,6 +8,13 @@ void cross(Vec3* a, Vec3* b, Vec3* c) {
     c->z = a->x * b->y - a->y * b->x;
 }
 
+void normalize(Vec3* in) {
+    float invLen = 1 / sqrtf(in->x * in->x + in->y * in->y + in->z * in->z);
+    in->x = invLen * in->x;
+    in->y = invLen * in->y;
+    in->z = invLen * in->z;
+}
+
 void matXvec(Mat4* matrix, Vec3* in, Vec3* out) {
     // Since we input a 3-dimensional vector, to multiply the matrix by the vector we assume that the vector has
     // a fourth element, w = 1.

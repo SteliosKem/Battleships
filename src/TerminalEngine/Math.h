@@ -23,6 +23,9 @@ typedef struct Mat4 {
     float mat[4][4];
 } Mat4;
 
+// Calculates the cross product of vectors a and b and outputs it in out.
+void cross(Vec3* a, Vec3* b, Vec3* c);
+
 // Computes the matrix vector product and outputs it to the vector ptr "out".
 void matXvec(Mat4* matrix, Vec3* in, Vec3* out);
 

@@ -2,6 +2,12 @@
 
 const float PI = 3.14159f;
 
+void cross(Vec3* a, Vec3* b, Vec3* c) {
+    c->x = a->y * b->z - a->z * b->y;
+    c->y = a->z * b->x - a->x * b->z;
+    c->z = a->x * b->y - a->y * b->x;
+}
+
 void matXvec(Mat4* matrix, Vec3* in, Vec3* out) {
     // Since we input a 3-dimensional vector, to multiply the matrix by the vector we assume that the vector has
     // a fourth element, w = 1.

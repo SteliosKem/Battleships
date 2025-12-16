@@ -73,6 +73,11 @@ void drawLine(Renderer* renderer, Vec2* a, Vec2* b);
 void drawTriangle(Renderer* renderer, Vec2* a, Vec2* b, Vec2* c);
 // Draws a non-filled triangle.
 void drawTriangle2(Renderer* renderer, Triangle* triangle);
+
+void setLinePoints(Vec2* a, Vec2* b, Vec2* arr);
+// Draws a filled triangle.
+void drawFilledTriangle(Renderer* renderer, Vec2* a, Vec2* b, Vec2* c);
+void drawFilledTriangle2(Renderer* renderer, Triangle* triangle);
 // Outputs the given string on the terminal starting from the specified point
 void drawText(Renderer* renderer, char* str, Vec2* pos);
 

@@ -14,5 +14,7 @@ typedef struct Application {
 bool createApplication(Application* app);
 // Runs the application based on the struct provided. Returns false if there were errors.
 bool runApplication(Application* app);
+// Update Window Information.
+void updateWindow(Application* app);
 
 #endif

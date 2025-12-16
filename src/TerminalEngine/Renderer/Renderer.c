@@ -146,6 +146,53 @@ void drawTriangle2(Renderer* renderer, Triangle* triangle) {
     drawTriangle(renderer, &a, &b, &c);
 }
 
+void swap(Vec2* a, Vec2* b) {
+    Vec2 c = *b;
+    *b = *a;
+    *a = c;
+}
+
+float edge(Vec2* a, Vec2* b, Vec2* p) {
+    return (p->x - a->x) * (b->y - a->y) - (p->y - a->y) * (b->x - a->x);
+}
+
+void drawFilledTriangle(Renderer* renderer, Vec2* a, Vec2* b, Vec2* c) {
+    // Min and Max coordinates of the three points to create a bounding box
+    int minX = floor(min(a->x, min(b->x, c->x)));
+    int minY = floor(min(a->y, min(b->y, c->y)));
+    int maxX = floor(max(a->x, max(b->x, c->x)));
+    int maxY = floor(max(a->y, max(b->y, c->y)));
+
+    float area = edge(a, b, c);
+
+    // If area is 0 we just have a point or a line
+    if(!area) {
+        drawTriangle(renderer, a, b, c);
+        return;
+    }
+
+    Vec2 pixel = {0, 0};
+    for(pixel.y = minY; pixel.y < maxY; pixel.y++) {
+        for(pixel.x = minX; pixel.x < maxX; pixel.x++) {
+            Vec2 center = pixel;
+            float w0 = edge(b, c, &center);
+            float w1 = edge(c, a, &center);
+            float w2 = edge(a, b, &center);
+
+            if((w0 >= 0 && w1 >= 0 && w2 >= 0) || (w0 <= 0 && w1 <= 0 && w2 <= 0))
+                drawSolid(renderer, &pixel);
+        }
+    }
+}
+
+void drawFilledTriangle2(Renderer* renderer, Triangle* triangle) {
+    Vec2 a = {triangle->points[0].x, triangle->points[0].y};
+    Vec2 b = {triangle->points[1].x, triangle->points[1].y};
+    Vec2 c = {triangle->points[2].x, triangle->points[2].y};
+
+    drawFilledTriangle(renderer, &a, &b, &c);
+}
+
 void drawText(Renderer* renderer, char* str, Vec2* pos) {
     char* c = str;
     int i = 0;

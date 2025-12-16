@@ -10,6 +10,10 @@ bool createApplication(Application* app) {
     return true;
 }
 
+void updateWindow(Application* app) {
+    SetConsoleTitle(app->title);
+}
+
 bool runApplication(Application* app) {
     Renderer renderer = {app->screenWidth, app->screenHeight, NULL};
     createRenderer(&renderer);
@@ -56,7 +60,6 @@ bool runApplication(Application* app) {
         oldTime = clock();
 
         theta += deltaTime * 0.0008f;
-        
 
         rot2.mat[0][0] = cos(theta);
         rot2.mat[0][1] = sin(theta);
@@ -136,7 +139,14 @@ bool runApplication(Application* app) {
                 b.y *= 0.5f * (float)renderer.screenHeight;
                 c.y *= 0.5f * (float)renderer.screenHeight;
 
-                drawTriangle(&renderer, &a, &b, &c);
+                a.x = min(a.x, renderer.screenWidth);
+                b.x = min(b.x, renderer.screenWidth);
+                c.x = min(c.x, renderer.screenWidth);
+                a.y = min(a.y, renderer.screenHeight);
+                b.y = min(b.y, renderer.screenHeight);
+                c.y = min(c.y, renderer.screenHeight);
+
+                drawFilledTriangle(&renderer, &a, &b, &c);
             }
         }
 

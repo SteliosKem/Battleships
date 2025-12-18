@@ -38,7 +38,8 @@ void render(Renderer* render);
 void destroyRenderer(Renderer* renderer);
 
 typedef enum Color {
-    WHITE
+    WHITE,
+
 } Color;
 
 typedef struct Fragment {
@@ -54,32 +55,39 @@ typedef struct Triangle {
     Vec3 points[3];
 } Triangle;
 
+typedef struct DirectionalLight {
+    Vec3 direction;
+} DirectionalLight;
+
 // Dynamic Array of Triangles
 typedef struct Mesh {
     Triangle* triangles;
 } Mesh;
+
+typedef struct Character {
+    wchar_t type;
+    Color color;
+} Character;
 
 // Draw Commands
 
 // Clears the Screen Buffer.
 void clear(Renderer* renderer);
 // Draws a single "pixel" (character) at specified location.
-void draw(Renderer* renderer, Fragment* frag);
+void draw(Renderer* renderer, const Fragment* frag);
 // Draws a solid (filled) character at specified location.
-void drawSolid(Renderer* renderer, Vec2* point);
+void drawSolid(Renderer* renderer, Vec2 point);
 // Draws a solid line from point a to point b.
-void drawLine(Renderer* renderer, Vec2* a, Vec2* b);
+void drawLine(Renderer* renderer, Vec2 a, Vec2 b);
 // Draws a non-filled triangle with the three inputs as points.
-void drawTriangle(Renderer* renderer, Vec2* a, Vec2* b, Vec2* c);
+void drawTriangle(Renderer* renderer, Vec2 a, Vec2 b, Vec2 c);
 // Draws a non-filled triangle.
-void drawTriangle2(Renderer* renderer, Triangle* triangle);
+void drawTriangle2(Renderer* renderer, const Triangle* triangle);
 
-void setLinePoints(Vec2* a, Vec2* b, Vec2* arr);
 // Draws a filled triangle.
-void drawFilledTriangle(Renderer* renderer, Vec2* a, Vec2* b, Vec2* c);
-void drawFilledTriangle2(Renderer* renderer, Triangle* triangle);
+void drawFilledTriangle(Renderer* renderer, Vec2 a, Vec2 b, Vec2 c);
+void drawFilledTriangle2(Renderer* renderer, const Triangle* triangle);
 // Outputs the given string on the terminal starting from the specified point
-void drawText(Renderer* renderer, char* str, Vec2* pos);
-
+void drawText(Renderer* renderer, const char* str, Vec2 pos);
 
 #endif

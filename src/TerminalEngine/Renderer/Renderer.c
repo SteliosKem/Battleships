@@ -53,19 +53,19 @@ void destroyRenderer(Renderer* renderer) {
     free(renderer->screen);
 }
 
-void draw(Renderer* renderer, Fragment* frag) {
+void draw(Renderer* renderer, const Fragment* frag) {
     renderer->screen[renderer->screenWidth * frag->y + frag->x] = frag->type;
 }
 
-void drawSolid(Renderer* renderer, Vec2* point) {
-    Fragment frag = {point->x, point->y, 0x2588, 0};
+void drawSolid(Renderer* renderer, Vec2 point) {
+    Fragment frag = {point.x, point.y, 0x2588, 0}; //
     draw(renderer, &frag);
 }
 
-void drawLine(Renderer* renderer, Vec2* a, Vec2* b) {
+void drawLine(Renderer* renderer, Vec2 a, Vec2 b) {
     // Bresenham's Line Algorithm
-    int dx = b->x - a->x;
-    int dy = b->y - a->y;
+    int dx = b.x - a.x;
+    int dy = b.y - a.y;
     int adx = abs(dx);
     int ady = abs(dy);
 
@@ -77,15 +77,15 @@ void drawLine(Renderer* renderer, Vec2* a, Vec2* b) {
     
     if(ady <= adx) {
         if(dx >= 0) {
-            currentPoint = *a;
-            endPoint.x = b->x;
+            currentPoint = a;
+            endPoint.x = b.x;
         }
         else {
-            currentPoint = *b;
-            endPoint.x = a->x;
+            currentPoint = b;
+            endPoint.x = a.x;
         }
 
-        drawSolid(renderer, &currentPoint);
+        drawSolid(renderer, currentPoint);
 
         for(int i = 0; currentPoint.x < endPoint.x; i++) {
             currentPoint.x++;
@@ -100,20 +100,20 @@ void drawLine(Renderer* renderer, Vec2* a, Vec2* b) {
                 px += 2 * (ady - adx);
             }
 
-            drawSolid(renderer, &currentPoint);
+            drawSolid(renderer, currentPoint);
         }
     }
     else {
         if(dy >= 0) {
-            currentPoint = *a;
-            endPoint.y = b->y;
+            currentPoint = a;
+            endPoint.y = b.y;
         }
         else {
-            currentPoint = *b;
-            endPoint.y = a->y;
+            currentPoint = b;
+            endPoint.y = a.y;
         }
 
-        drawSolid(renderer, &currentPoint);
+        drawSolid(renderer, currentPoint);
 
         for(int i = 0; currentPoint.y < endPoint.y; i++) {
             currentPoint.y++;
@@ -128,22 +128,22 @@ void drawLine(Renderer* renderer, Vec2* a, Vec2* b) {
                 py += 2 * (adx - ady);
             }
 
-            drawSolid(renderer, &currentPoint);
+            drawSolid(renderer, currentPoint);
         }
     }
 }
 
-void drawTriangle(Renderer* renderer, Vec2* a, Vec2* b, Vec2* c) {
+void drawTriangle(Renderer* renderer, Vec2 a, Vec2 b, Vec2 c) {
     drawLine(renderer, a, b);
     drawLine(renderer, a, c);
     drawLine(renderer, b, c);
 }
 
-void drawTriangle2(Renderer* renderer, Triangle* triangle) {
+void drawTriangle2(Renderer* renderer, const Triangle* triangle) {
     Vec2 a = {triangle->points[0].x, triangle->points[0].y};
     Vec2 b = {triangle->points[1].x, triangle->points[1].y};
     Vec2 c = {triangle->points[2].x, triangle->points[2].y};
-    drawTriangle(renderer, &a, &b, &c);
+    drawTriangle(renderer, a, b, c);
 }
 
 void swap(Vec2* a, Vec2* b) {
@@ -152,16 +152,16 @@ void swap(Vec2* a, Vec2* b) {
     *a = c;
 }
 
-float edge(Vec2* a, Vec2* b, Vec2* p) {
-    return (p->x - a->x) * (b->y - a->y) - (p->y - a->y) * (b->x - a->x);
+float edge(Vec2 a, Vec2 b, Vec2 p) {
+    return (p.x - a.x) * (b.y - a.y) - (p.y - a.y) * (b.x - a.x);
 }
 
-void drawFilledTriangle(Renderer* renderer, Vec2* a, Vec2* b, Vec2* c) {
+void drawFilledTriangle(Renderer* renderer, Vec2 a, Vec2 b, Vec2 c) {
     // Min and Max coordinates of the three points to create a bounding box
-    int minX = floor(min(a->x, min(b->x, c->x)));
-    int minY = floor(min(a->y, min(b->y, c->y)));
-    int maxX = floor(max(a->x, max(b->x, c->x)));
-    int maxY = floor(max(a->y, max(b->y, c->y)));
+    int minX = floor(min(a.x, min(b.x, c.x)));
+    int minY = floor(min(a.y, min(b.y, c.y)));
+    int maxX = floor(max(a.x, max(b.x, c.x)));
+    int maxY = floor(max(a.y, max(b.y, c.y)));
 
     float area = edge(a, b, c);
 
@@ -175,29 +175,29 @@ void drawFilledTriangle(Renderer* renderer, Vec2* a, Vec2* b, Vec2* c) {
     for(pixel.y = minY; pixel.y < maxY; pixel.y++) {
         for(pixel.x = minX; pixel.x < maxX; pixel.x++) {
             Vec2 center = pixel;
-            float w0 = edge(b, c, &center);
-            float w1 = edge(c, a, &center);
-            float w2 = edge(a, b, &center);
+            float w0 = edge(b, c, center);
+            float w1 = edge(c, a, center);
+            float w2 = edge(a, b, center);
 
             if((w0 >= 0 && w1 >= 0 && w2 >= 0) || (w0 <= 0 && w1 <= 0 && w2 <= 0))
-                drawSolid(renderer, &pixel);
+                drawSolid(renderer, pixel);
         }
     }
 }
 
-void drawFilledTriangle2(Renderer* renderer, Triangle* triangle) {
+void drawFilledTriangle2(Renderer* renderer, const Triangle* triangle) {
     Vec2 a = {triangle->points[0].x, triangle->points[0].y};
     Vec2 b = {triangle->points[1].x, triangle->points[1].y};
     Vec2 c = {triangle->points[2].x, triangle->points[2].y};
 
-    drawFilledTriangle(renderer, &a, &b, &c);
+    drawFilledTriangle(renderer, a, b, c);
 }
 
-void drawText(Renderer* renderer, char* str, Vec2* pos) {
+void drawText(Renderer* renderer, const char* str, Vec2 pos) {
     char* c = str;
     int i = 0;
     while(*c != '\0') {
-        renderer->screen[(int)pos->y * renderer->screenWidth + (int)pos->x + i] = *c;
+        renderer->screen[(int)pos.y * renderer->screenWidth + (int)pos.x + i] = *c;
         i++;
         c++;
     }

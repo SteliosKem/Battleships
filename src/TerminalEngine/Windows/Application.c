@@ -76,6 +76,8 @@ bool runApplication(Application* app) {
         rot1.mat[2][2] = cos(2*theta);
         rot1.mat[3][3] = 1;
 
+        DirectionalLight lightSource = { {0.0f, 0.0f, -1.0f} };
+
         // Scene Drawing
         clear(&renderer);
 
@@ -146,12 +148,12 @@ bool runApplication(Application* app) {
                 b.y = min(b.y, renderer.screenHeight);
                 c.y = min(c.y, renderer.screenHeight);
 
-                drawFilledTriangle(&renderer, &a, &b, &c);
+                drawTriangle(&renderer, a, b, c);
             }
         }
 
         Vec2 textPos = { 70.0f, 40.0f };
-        drawText(&renderer, "Hello, World", &textPos);
+        drawText(&renderer, "Hello, World", textPos);
 
         // End Scene
         render(&renderer);

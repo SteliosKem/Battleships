@@ -72,7 +72,7 @@ typedef struct Character {
 // Draw Commands
 
 // Clears the Screen Buffer.
-void clear(Renderer* renderer);
+void _clear(Renderer* renderer);
 // Draws a single "pixel" (character) at specified location.
 void draw(Renderer* renderer, const Fragment* frag);
 // Draws a solid (filled) character at specified location.

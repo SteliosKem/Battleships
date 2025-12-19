@@ -1,4 +1,5 @@
 #include "Renderer.h"
+#include <curses.h>
 
 void createRenderer(Renderer* renderer) {
     // 2D Array of unicode characters which acts as the screen buffer that will be printed on the console
@@ -29,7 +30,7 @@ void createRenderer(Renderer* renderer) {
     renderer->camera.pos = (Vec3){0, 0, 0};
 }
 
-void clear(Renderer* renderer) {
+void _clear(Renderer* renderer) {
     // Clear Buffer
     for(int y = 0; y < renderer->screenHeight; y++) {
         for(int x = 0; x < renderer->screenWidth; x++) {
@@ -194,7 +195,7 @@ void drawFilledTriangle2(Renderer* renderer, const Triangle* triangle) {
 }
 
 void drawText(Renderer* renderer, const char* str, Vec2 pos) {
-    char* c = str;
+    const char* c = str;
     int i = 0;
     while(*c != '\0') {
         renderer->screen[(int)pos.y * renderer->screenWidth + (int)pos.x + i] = *c;

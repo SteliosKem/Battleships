@@ -79,7 +79,7 @@ bool runApplication(Application* app) {
         DirectionalLight lightSource = { {0.0f, 0.0f, -1.0f} };
 
         // Scene Drawing
-        clear(&renderer);
+        _clear(&renderer);
 
         // Draw Cube
         for(int i = 0; i < 6 * 2; i++) {
